@@ -68,7 +68,7 @@ def get_bitget_ticker(symbol):
 
     price = float(ticker["lastPr"])
 
-    # Bitget 回傳的 24 小時漲跌，有些交易對可能欄位名稱不同
+    # Bitget 的 24 小時漲跌欄位
     if "change24h" in ticker:
         change_24h = float(ticker["change24h"]) * 100
     elif "changeUtc24h" in ticker:
@@ -86,7 +86,7 @@ def get_bitget_ticker(symbol):
 
 def get_signal(change_24h):
     """
-    根據 24 小時漲跌幅，給出簡單多空觀察
+    根據 24 小時漲跌幅，給簡單多空觀察
     注意：這不是自動交易，不會下單
     """
     if change_24h >= LONG_SIGNAL_PERCENT:
@@ -100,7 +100,6 @@ def get_signal(change_24h):
 def format_price(price):
     """
     價格格式化
-    BTC / ETH 價格大，preOPAI 價格可能需要小數
     """
     if price >= 1000:
         return f"${price:,.2f}"
@@ -159,7 +158,11 @@ def main():
             report_lines.append(error_message)
 
     report_lines.append("提醒：這不是投資建議，請自行控管風險。")
+
     full_report = "\n".join(report_lines)
+
+    # 這行很重要：讓 GitHub Actions log 也看得到 BTC / ETH / preOPAI
+    print(full_report)
 
     if alerts:
         final_message = (
@@ -168,7 +171,7 @@ def main():
         )
         send_telegram_message(final_message)
     else:
-        print(full_report)
+        print("")
         print("沒有達到 Telegram 通知條件。")
 
 
