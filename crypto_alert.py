@@ -14,8 +14,8 @@ SYMBOLS = {
 # Telegram 通知門檻
 # 漲超過 3% 會通知
 # 跌超過 -3% 會通知
-UP_ALERT_PERCENT = -999
-DOWN_ALERT_PERCENT = -999
+UP_ALERT_PERCENT = 3
+DOWN_ALERT_PERCENT = -3
 
 # 多空觀察門檻
 # 只是文字分析，不會自動下單
